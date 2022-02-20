@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from pymongo import MongoClient
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
-client = MongoClient()
-db = client['db_name']
-
-# Create your views here.
-def main(req):
-    return HttpResponse("Hello")
+class CreateUserView(APIView):
+    def post(self, request):
+        data = {"x": 5}
+        return Response({"status": "success", "data": data}, status=status.HTTP_200_OK)

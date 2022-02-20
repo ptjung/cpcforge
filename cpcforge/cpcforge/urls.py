@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('cpcforge.apps.api.urls')),
+    path('', include('cpcforge.apps.frontend.urls')),
 ]

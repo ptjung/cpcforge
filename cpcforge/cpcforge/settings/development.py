@@ -1,7 +1,7 @@
 from pathlib import Path
-from common.util import env
+from common.util import Config
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = Config.DJANGO_SECRET_KEY
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
@@ -12,6 +12,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cpcforge.apps.api.apps.ApiConfig',
+    'cpcforge.apps.frontend.apps.FrontendConfig',
     'rest_framework'
 ]
 MIDDLEWARE = [
@@ -64,4 +65,5 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+STATIC_ROOT = 'cpcforge/apps/frontend'
 STATIC_URL = 'static/'
