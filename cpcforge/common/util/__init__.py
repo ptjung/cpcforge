@@ -9,5 +9,5 @@ class Config:
     MONGODB_CONN_STRING = getenv('MONGODB_CONN_STRING')
 
 mongodb_client = MongoClient(Config.MONGODB_CONN_STRING)
-neigh_coll = mongodb_client['sample_restaurants']['neighborhoods']
-print(neigh_coll.find_one()['name'])
+# neigh_coll = mongodb_client['sample_restaurants']['neighborhoods']
+# print(neigh_coll.find_one()['name'])

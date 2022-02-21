@@ -1,0 +1,72 @@
+.login-box-wrapper {
+    margin: 20vh 25% 0 25%;
+
+    .login-box {
+        max-width: 33rem;
+        padding: 32px;
+        border-radius: 8px;
+        border: 1px solid #bbb;
+        background-color: white;
+        margin: 0px auto 4em auto;
+
+        img {
+            margin-top: 90px;
+            margin-left: 30px;
+            margin-bottom: 70px;
+            width: 140px;
+        }
+
+        .site-label {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .form-container {
+            label {
+                display: block;
+                font-size: 15px;
+                margin-bottom: 4px;
+            }
+            
+            .field-container {
+                margin-bottom: 20px;
+                input {
+                    display: block;
+                    width: calc(100% - 32px);
+                    font-size: 14px;
+                    padding: 12px;
+                    margin-bottom: 4px;
+                }
+
+                span {
+                    color: rgb(215, 0, 0);
+                    font-size: 14px;
+                }
+            }
+
+            .form-bottom {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                button {
+                    margin-top: 8px;
+                    padding: 12px 32px;
+                }
+
+                a {
+                    margin: 0 4px;
+                    text-decoration: none;
+                    color: #888;
+                    white-space: nowrap;
+
+                    &:hover {
+                        text-decoration: underline;
+                        color: #444;
+                    }
+                }
+            }
+        }
+    }
+}

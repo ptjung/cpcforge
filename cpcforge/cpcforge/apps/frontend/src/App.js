@@ -13,15 +13,30 @@ import {
 	LogInModule,
 	SignUpModule
 } from "./components";
+import "./App.css";
 
 function App() {
 	return (
 		<Router>
-			<Navbar />
 			<Routes>
-				<Route exact path="/" element={<HomeModule />} />
-				<Route path="/list" element={<PlatformList />} />
-				<Route path="/create" element={<PlatformCreate />} />
+				<Route exact path="/" element={
+					<>
+						<Navbar />
+						<HomeModule />
+					</>
+				} />
+				<Route path="/list" element={
+					<>
+						<Navbar />
+						<PlatformList />
+					</>
+				} />
+				<Route path="/create" element={
+					<>
+						<Navbar />
+						<PlatformCreate />
+					</>
+				} />
 				<Route path="/login" element={<LogInModule />} />
 				<Route path="/signup" element={<SignUpModule />} />
 			</Routes>
