@@ -25,6 +25,7 @@ db.sqlite3-journal
 
 # Frontend / React stuff
 node_modules
+cpcforge/cpcforge/apps/frontend/static/frontend
 
 # Environments
 .env
