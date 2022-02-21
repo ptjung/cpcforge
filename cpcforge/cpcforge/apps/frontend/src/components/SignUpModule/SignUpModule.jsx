@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import api from "../../utils";
 import styles from './SignUpModule.module.scss';
 
 const signupInitValues = {
@@ -9,7 +10,7 @@ const signupInitValues = {
     confirmPassword: ''
 };
 
-const signupValidate = values => {
+const signupValidate = async (values) => {
     const errors = {};
 
     /* This block validates the username field */
@@ -20,6 +21,14 @@ const signupValidate = values => {
     else if (!/^[A-Za-z0-9_]{3,16}$/i.test(inUsername)) {
         errors.username = 'Invalid username: must consist of 3 to 16 alphanumeric characters or \'_\'';
     }
+    else {
+        // Check if username is already taken
+        const res = await api.post('/api/users/retrieve', { identifier: inUsername });
+        console.log(res.data);
+        if (Object.keys(res.data).length > 1) {
+            errors.username = 'This username has already been taken'
+        }
+    }
 
     /* This block validates the email field */
     const inEmail = values.email.trim();
@@ -28,6 +37,13 @@ const signupValidate = values => {
     }
     else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}$/i.test(inEmail)) {
         errors.email = 'Invalid email address: must be a valid email address consisting of \'@\' and \'.\'';
+    }
+    else {
+        // Check if username is already taken
+        const res = await api.post('/api/users/retrieve', { identifier: inEmail });
+        if (Object.keys(res.data).length > 1) {
+            errors.email = 'This email has already been taken'
+        }
     }
 
     /* This block validates the password field */
@@ -52,8 +68,12 @@ const signupValidate = values => {
 };
 
 const signupSubmitEvent = async (values, actions) => {
-    await new Promise((r) => setTimeout(r, 500));
-    alert(JSON.stringify(values, null, 2));
+    const user_vals = {
+        username: values.username,
+        email: values.email,
+        password: values.password
+    };
+    await api.post('/api/users/create', user_vals);
     actions.resetForm(signupInitValues);
 };
 
@@ -71,13 +91,13 @@ function SignUpModule() {
                 >
                     <Form className={styles['form-container']}>
                         <label htmlFor="username">Username *</label>
-                        <div class={styles['field-container']}>
+                        <div className={styles['field-container']}>
                             <Field id="username" name="username" />
                             <span><ErrorMessage name="username" /></span>
                         </div>
 
                         <label htmlFor="email">Email *</label>
-                        <div class={styles['field-container']}>
+                        <div className={styles['field-container']}>
                             <Field
                             id="email"
                             name="email"
@@ -88,13 +108,13 @@ function SignUpModule() {
                         </div>
 
                         <label htmlFor="password">Password *</label>
-                        <div class={styles['field-container']}>
+                        <div className={styles['field-container']}>
                             <Field id="password" name="password" type="password" />
                             <span><ErrorMessage name="password" /></span>
                         </div>
 
                         <label htmlFor="confirmPassword">Confirm Password *</label>
-                        <div class={styles['field-container']}>
+                        <div className={styles['field-container']}>
                             <Field id="confirmPassword" name="confirmPassword" type="password" />
                             <span><ErrorMessage name="confirmPassword" /></span>
                         </div>

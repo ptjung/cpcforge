@@ -3,6 +3,7 @@ const webpack = require("webpack");
 
 module.exports = (env, argv) => {
     const app_mode = argv.mode || 'development';
+    const dotenv = require('dotenv').config({ path: path.join(__dirname, '..', '..', '..', '..', `.env`) }).parsed;
 
     return {
         entry: "./src/index.js",
@@ -37,7 +38,8 @@ module.exports = (env, argv) => {
         },
         plugins: [
             new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify(app_mode)
+                'process.env.NODE_ENV': JSON.stringify(app_mode),
+                'process.env.BASE_URL': JSON.stringify(dotenv.BASE_URL)
             })
         ],
     };

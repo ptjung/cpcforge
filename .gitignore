@@ -29,6 +29,7 @@ cpcforge/cpcforge/apps/frontend/static/frontend
 
 # Environments
 .env
+.env.*
 .venv
 env/
 venv/
