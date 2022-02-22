@@ -1,83 +1,99 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import api from "../../utils";
+import { api, getTokenStatus } from "../../utils";
 import styles from './SignUpModule.module.scss';
 
-const signupInitValues = {
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-};
-
-const signupValidate = async (values) => {
-    const errors = {};
-
-    /* This block validates the username field */
-    const inUsername = values.username.trim();
-    if (!inUsername) {
-        errors.username = 'Required';
-    }
-    else if (!/^[A-Za-z0-9_]{3,16}$/i.test(inUsername)) {
-        errors.username = 'Invalid username: must consist of 3 to 16 alphanumeric characters or \'_\'';
-    }
-    else {
-        // Check if username is already taken
-        const res = await api.post('/api/users/retrieve', { identifier: inUsername });
-        console.log(res.data);
-        if (Object.keys(res.data).length > 1) {
-            errors.username = 'This username has already been taken'
-        }
-    }
-
-    /* This block validates the email field */
-    const inEmail = values.email.trim();
-    if (!inEmail) {
-        errors.email = 'Required';
-    }
-    else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}$/i.test(inEmail)) {
-        errors.email = 'Invalid email address: must be a valid email address consisting of \'@\' and \'.\'';
-    }
-    else {
-        // Check if username is already taken
-        const res = await api.post('/api/users/retrieve', { identifier: inEmail });
-        if (Object.keys(res.data).length > 1) {
-            errors.email = 'This email has already been taken'
-        }
-    }
-
-    /* This block validates the password field */
-    const inPassword = values.password;
-    const inConfirmPassword = values.confirmPassword;
-    if (!inPassword) {
-        errors.password = 'Required';
-    }
-    else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i.test(inPassword)) {
-        errors.password = 'Invalid password: must consist of at least 8 characters with both a letter and number';
-    }
-
-    /* This block validates the confirm password field */
-    if (!inConfirmPassword) {
-        errors.confirmPassword = 'Required';
-    }
-    else if (inPassword !== inConfirmPassword) {
-        errors.confirmPassword = 'Invalid: password fields do not match'
-    }
-
-    return errors;
-};
-
-const signupSubmitEvent = async (values, actions) => {
-    const user_vals = {
-        username: values.username,
-        email: values.email,
-        password: values.password
-    };
-    await api.post('/api/users/create', user_vals);
-    actions.resetForm(signupInitValues);
-};
-
 function SignUpModule() {
+    const [token, setToken] = useState('');
+    const navigate = useNavigate();
+    
+	useEffect(async () => {
+        const tokenStatus = await getTokenStatus();
+		if (tokenStatus?.['alive']) navigate("/");
+	}, []);
+
+    const signupInitValues = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    };
+    
+    const signupValidate = async (values) => {
+        const errors = {};
+    
+        /* This block validates the username field */
+        const inUsername = values.username.trim();
+        if (!inUsername) {
+            errors.username = 'Required';
+        }
+        else if (!/^[A-Za-z0-9_]{3,16}$/i.test(inUsername)) {
+            errors.username = 'Invalid username: must consist of 3 to 16 alphanumeric characters or \'_\'';
+        }
+        else {
+            // Check if username is already taken
+            const res = await api.post('/api/users/retrieve', { identifier: inUsername });
+            console.log(res.data);
+            if (Object.keys(res.data).length > 1) {
+                errors.username = 'This username has already been taken'
+            }
+        }
+    
+        /* This block validates the email field */
+        const inEmail = values.email.trim();
+        if (!inEmail) {
+            errors.email = 'Required';
+        }
+        else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}$/i.test(inEmail)) {
+            errors.email = 'Invalid email address: must be a valid email address consisting of \'@\' and \'.\'';
+        }
+        else {
+            // Check if username is already taken
+            const res = await api.post('/api/users/retrieve', { identifier: inEmail });
+            if (Object.keys(res.data).length > 1) {
+                errors.email = 'This email has already been taken'
+            }
+        }
+    
+        /* This block validates the password field */
+        const inPassword = values.password;
+        const inConfirmPassword = values.confirmPassword;
+        if (!inPassword) {
+            errors.password = 'Required';
+        }
+        else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i.test(inPassword)) {
+            errors.password = 'Invalid password: must consist of at least 8 characters with both a letter and number';
+        }
+    
+        /* This block validates the confirm password field */
+        if (!inConfirmPassword) {
+            errors.confirmPassword = 'Required';
+        }
+        else if (inPassword !== inConfirmPassword) {
+            errors.confirmPassword = 'Invalid: password fields do not match'
+        }
+    
+        // For form errors
+        return errors;
+    };
+    
+    const signupSubmitEvent = async (values, actions) => {
+        /* This block registers the new user's data via the API */
+        const user_vals = {
+            username: values.username.trim(),
+            email: values.email.trim(),
+            password: values.password
+        };
+        await api.post('/api/users/register', user_vals)
+            .then(res => {})
+            .catch(err => {});
+
+        // Navigate
+        actions.resetForm(signupInitValues);
+        window.location.href = '/';
+    };
+
     return (
         <div className={styles['signup-box-wrapper']}>
             <div className={styles['signup-box']}>

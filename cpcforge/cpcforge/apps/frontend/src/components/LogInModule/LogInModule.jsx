@@ -1,40 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import api from "../../utils";
+import { api, getTokenStatus } from "../../utils";
 import styles from './LogInModule.module.scss';
 
-const loginInitValues = {
-    identifier: '',
-    password: ''
-};
-
-const loginValidate = async (values) => {
-    const errors = {};
-
-    /* This block checks for wrong credentials */
-    const inIdentifier = values.identifier.trim();
-    const inPassword = values.password.trim();
-
-    /* Check whether account exists by the identifier */
-    const res = await api.post('/api/users/retrieve', { identifier: {'$regex': inIdentifier, '$options': 'i'}, password: inPassword });
-
-    if (!inIdentifier || (Object.keys(res.data).length <= 1)) {
-        errors.identifier = 'Enter an existing username or email';
-    }
-    else if (!inPassword || !res.data['pwd_check']) {
-        errors.password = 'The provided password is incorrect';
-    }
-
-    return errors;
-};
-
-const loginSubmitEvent = async (values, actions) => {
-    await new Promise((r) => setTimeout(r, 500));
-    alert(JSON.stringify(values, null, 2));
-    actions.resetForm(loginInitValues);
-};
-
 function LogInModule() {
+    const [token, setToken] = useState('');
+    const navigate = useNavigate();
+    
+	useEffect(async () => {
+        const tokenStatus = await getTokenStatus();
+		if (tokenStatus?.['alive']) navigate("/");
+	}, []);
+
+    const loginInitValues = {
+        identifier: '',
+        password: ''
+    };
+    
+    const loginValidate = async (values) => {
+        const errors = {};
+    
+        /* This block checks for wrong credentials */
+        const inIdentifier = values.identifier.trim();
+        const inPassword = values.password.trim();
+    
+        /* Check whether account exists by the identifier */
+        const retrieveBody = { identifier: {'$regex': `^${inIdentifier}$`, $options: 'i' }, password: inPassword };
+        const res = await api.post('/api/users/retrieve', retrieveBody);
+        if (!inIdentifier || (Object.keys(res.data).length <= 1)) {
+            errors.identifier = 'Enter an existing username or email';
+        }
+        else if (!inPassword || !(res.data.hasOwnProperty('token'))) {
+            errors.password = 'The provided password is incorrect';
+        }
+        else {
+            setToken(res.data['token']);
+        }
+    
+        // For form errors
+        return errors;
+    };
+    
+    const loginSubmitEvent = async (values, actions) => {
+        window.sessionStorage.setItem('token', token);
+
+        // Navigate
+        actions.resetForm(loginInitValues);
+        window.location.href = '/';
+    };
+
     return (
         <div className={styles['login-box-wrapper']}>
             <div className={styles['login-box']}>

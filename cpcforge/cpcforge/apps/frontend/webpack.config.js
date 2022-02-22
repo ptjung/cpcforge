@@ -39,7 +39,8 @@ module.exports = (env, argv) => {
         plugins: [
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(app_mode),
-                'process.env.BASE_URL': JSON.stringify(dotenv.BASE_URL)
+                'process.env.BASE_URL': JSON.stringify(dotenv.BASE_URL),
+                'process.env.JWT_SECRET_KEY': JSON.stringify(dotenv.JWT_SECRET_KEY)
             })
         ],
     };

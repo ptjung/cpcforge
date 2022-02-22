@@ -11,10 +11,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cpcforge.apps.api.apps.ApiConfig',
+    'rest_framework',
+    'mongo_auth',
+    'cpcforge.apps.accounts.apps.AccountsConfig',
     'cpcforge.apps.frontend.apps.FrontendConfig',
-    'rest_framework'
+    'cpcforge.apps.platforms.apps.PlatformsConfig',
 ]
+REST_FRAMEWORK = {}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
