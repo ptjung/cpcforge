@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { api, getTokenStatus } from "../../utils";
 import styles from './SignUpModule.module.scss';
 
 function SignUpModule() {
-    const [token, setToken] = useState('');
     const navigate = useNavigate();
     
 	useEffect(async () => {
@@ -34,7 +33,6 @@ function SignUpModule() {
         else {
             // Check if username is already taken
             const res = await api.post('/api/users/retrieve', { identifier: inUsername });
-            console.log(res.data);
             if (Object.keys(res.data).length > 1) {
                 errors.username = 'This username has already been taken'
             }

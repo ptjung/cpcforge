@@ -39,7 +39,7 @@ class RetrieveUserView(GenericAPIView):
             result = coll_users.find_one({ 'email': identifier })
         if result:
             hashed = result['password']
-            result = get_kpvals(result, ('_id', 'username', 'email'), str)
+            result = get_kpvals(result, ('_id', 'username', 'email'), (str, str, str))
             if pwd_match(checkable_pwd, hashed):
                 result['token'] = encode(result, Config.JWT_SECRET_KEY, algorithm = 'HS256')
         else:

@@ -24,4 +24,4 @@ coll_users = db_profiles['users']
 # Utility Functions
 pwd_hash = lambda str: hashpw(str.encode('utf-8'), gensalt(10))
 pwd_match = lambda str, hashed: checkpw(str.encode('utf-8'), hashed)
-get_kpvals = lambda obj, keys, fn = (lambda e: e): {k: fn(obj[k]) for k in keys}
+get_kpvals = lambda obj, keys, fns: {k: fns[i](obj[k]) for i, k in enumerate(keys)}
