@@ -209,7 +209,7 @@ function ProblemCreate() {
                     <div className={styles['probcreate-box']}>
                         <div className={styles['site-label']}>Test Cases</div>
                         <p>
-                            Note: select one file at a time when adding them respectively into the categories below.
+                            Note: select one <i>.TXT</i> file at a time when adding them respectively into the categories below.
                             <br />< br/>
                             As a guideline, the <i>n</i> th input corresponds with the <i>n</i> th output.
                         </p>

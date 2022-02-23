@@ -1,7 +1,8 @@
+import imp
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from jwt import encode, decode
-from common.util import Config, coll_platforms, get_kpvals
+from datetime import datetime
+from common.util import coll_submit_logs, coll_platforms, runner
 
 class CreateProblemAPI(GenericAPIView):
     """
@@ -35,3 +36,30 @@ class CreateProblemAPI(GenericAPIView):
             return Response({ 'status': 'success' })
         except:
             return Response({ 'status': 'fail' })
+            
+class SubmitProblemAPI(GenericAPIView):
+    """
+    This view allows a user to submit a problem solution.
+
+    --- Body Params ---
+    :username (string) - The username of the submitter
+    :pltHandle (string) - The platform's unique handle
+    :probHandle (string) - The problem's unique handle
+    :writtenCode (string) - The user's written code (just Python, for now!)
+    """
+    def post(self, request):
+        questn_data = request.data
+        problem_lst = coll_platforms.find_one({ 'handle': questn_data['pltHandle'] })['problems']
+        for prob in problem_lst:
+            # Finding the specific problem of the given handles
+            if prob['handle'] == questn_data['probHandle']:
+                result = runner.solve_tcases(questn_data['writtenCode'], prob['testCasesIn'], prob['testCasesOut'])
+                coll_submit_logs.insert_one({
+                    'date': '{date:%Y-%m-%d_%H:%M:%S}'.format( date=datetime.now() ),
+                    'username': questn_data['username'],
+                    'platform': questn_data['pltHandle'],
+                    'problem': questn_data['probHandle'],
+                    'result': result
+                })
+                return Response({ 'status': 'success', 'result': result })
+        return Response({ 'status': 'fail' })
