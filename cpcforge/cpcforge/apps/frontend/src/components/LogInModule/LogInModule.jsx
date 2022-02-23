@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { api, getTokenStatus } from "../../utils";
+import { api, getTokenStatus, navigateAndRefresh } from "../../utils";
 import styles from './LogInModule.module.scss';
 
 function LogInModule() {
@@ -10,7 +10,7 @@ function LogInModule() {
     
 	useEffect(async () => {
         const tokenStatus = await getTokenStatus();
-		if (tokenStatus?.['alive']) navigate("/");
+		if (tokenStatus?.['verified']) navigate("/");
 	}, []);
 
     const loginInitValues = {
@@ -47,7 +47,7 @@ function LogInModule() {
 
         // Navigate
         actions.resetForm(loginInitValues);
-        window.location.href = '/';
+        navigateAndRefresh('/');
     };
 
     return (

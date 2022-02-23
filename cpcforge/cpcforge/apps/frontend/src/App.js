@@ -8,8 +8,11 @@ import {
 import {
 	Navbar,
 	HomeModule,
+	PlatformBox,
 	PlatformList,
 	PlatformCreate,
+	ProblemCreate,
+	ProblemBox,
 	LogInModule,
 	SignUpModule
 } from "./components";
@@ -36,6 +39,16 @@ function App() {
 					<>
 						<Navbar />
 						<PlatformCreate />
+					</>
+				} />
+				<Route path="/platform/:handle/*" element={
+					<>
+						<Navbar />
+						<Routes>
+							<Route exact path="/" element={<PlatformBox />} />
+							<Route path="/create" element={<ProblemCreate />} />
+							<Route path="/problem/:probHandle/*" element={<ProblemBox />} />
+						</Routes>	
 					</>
 				} />
 				<Route path="/login" element={<LogInModule />} />

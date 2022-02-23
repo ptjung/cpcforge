@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { api, getTokenStatus } from '../../utils';
+import { api, getTokenStatus, navigateAndRefresh } from '../../utils';
 import styles from './PlatformCreate.module.scss';
 
 function PlatformCreate() {
@@ -11,7 +11,7 @@ function PlatformCreate() {
 
 	useEffect(async () => {
         const tokenStatus = await getTokenStatus();
-		if (!tokenStatus?.['alive']) navigate("/login");
+		if (!tokenStatus?.['verified']) navigate("/login");
         setUsername(tokenStatus?.['payload']['username']);
 	}, []);
 
@@ -19,7 +19,8 @@ function PlatformCreate() {
         name: '',
         handle: '',
         contributors: '',
-        password: ''
+        password: '',
+        description: ''
     };
     
     const platcreateValidate = async (values) => {
@@ -46,8 +47,14 @@ function PlatformCreate() {
             // Check if platform handle is already taken
             const res = await api.post('/api/platforms/retrieve', { handle: inHandle });
             if (Object.keys(res.data).length > 1) {
-                errors.handle = 'This handle has already been taken'
+                errors.handle = 'This handle has already been taken';
             }
+        }
+        
+        /* This block validates the description field */
+        const inDescription = values.description;
+        if (inDescription && !/^[\x00-\x7F]{1,500}$/i.test(inDescription)) {
+            errors.description = 'Invalid description: can contain only up to 500 ASCII characters';
         }
         
         /* This block validates the password field */
@@ -68,6 +75,7 @@ function PlatformCreate() {
             handle: values.handle.trim(),
             contributors: values.contributors.trim(),
             password: values.password,
+            description: values.description.trim(),
             mode: navmode
         };
         await api.post('/api/platforms/create', platform_vals)
@@ -76,6 +84,7 @@ function PlatformCreate() {
 
         // Navigate
         actions.resetForm(platcreateInitValues);
+        navigateAndRefresh('/list');
     };
 
     return (
@@ -114,6 +123,12 @@ function PlatformCreate() {
                             <div className={styles['field-container']}>
                                 <Field id="password" name="password" />
                                 <span><ErrorMessage name="password" /></span>
+                            </div>
+
+                            <label htmlFor="description">Description</label>
+                            <div className={styles['field-container']}>
+                                <Field id="description" name="description" component="textarea" />
+                                <span><ErrorMessage name="description" /></span>
                             </div>
 
                             <div className={styles['form-bottom']}>

@@ -17,6 +17,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('api/', include('cpcforge.apps.platforms.urls')),
+    path('api/', include('cpcforge.apps.problems.urls')),
     path('api/', include('cpcforge.apps.accounts.urls')),
     path('', include('cpcforge.apps.frontend.urls')),
 ]

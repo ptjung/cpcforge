@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { api, getTokenStatus } from "../../utils";
+import { api, getTokenStatus, navigateAndRefresh } from "../../utils";
 import styles from './SignUpModule.module.scss';
 
 function SignUpModule() {
@@ -9,7 +9,7 @@ function SignUpModule() {
     
 	useEffect(async () => {
         const tokenStatus = await getTokenStatus();
-		if (tokenStatus?.['alive']) navigate("/");
+		if (tokenStatus?.['verified']) navigate("/");
 	}, []);
 
     const signupInitValues = {
@@ -89,7 +89,7 @@ function SignUpModule() {
 
         // Navigate
         actions.resetForm(signupInitValues);
-        window.location.href = '/';
+        navigateAndRefresh('/');
     };
 
     return (

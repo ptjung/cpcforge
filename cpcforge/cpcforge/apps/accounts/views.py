@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from jwt import encode, decode
 from common.util import Config, coll_users, pwd_hash, pwd_match, get_kpvals
 
-class VerifyUserView(GenericAPIView):
+class VerifyUserAPI(GenericAPIView):
     """
     This view verifies a user by the presence of their JWT.
 
@@ -11,15 +11,14 @@ class VerifyUserView(GenericAPIView):
     :token (string) - The user's token
     """
     def post(self, request):
-        data = request.data
-        token = data['token']
+        token = request.data['token']
         try:
             payload = decode(token, Config.JWT_SECRET_KEY, algorithms = ['HS256'])
-            return Response({ 'alive': True, 'payload': payload })
+            return Response({ 'verified': True, 'payload': payload })
         except:
-            return Response({ 'alive': False, 'payload': None })
+            return Response({ 'verified': False, 'payload': None })
 
-class RetrieveUserView(GenericAPIView):
+class RetrieveUserAPI(GenericAPIView):
     """
     This view retrieves a user given an identifier. `pwd_check` may
     be set and is a return value for whether a given password
@@ -34,19 +33,25 @@ class RetrieveUserView(GenericAPIView):
         identifier = data['identifier']
         checkable_pwd = data['password'] if 'password' in data else ''
 
-        result = coll_users.find_one({ 'username': identifier })
-        if not result:
-            result = coll_users.find_one({ 'email': identifier })
-        if result:
-            hashed = result['password']
-            result = get_kpvals(result, ('_id', 'username', 'email'), (str, str, str))
-            if pwd_match(checkable_pwd, hashed):
+        # Query by identifier
+        db_user_result = coll_users.find_one({ 'username': identifier })
+        if not db_user_result:
+            db_user_result = coll_users.find_one({ 'email': identifier })
+
+        # Status returned with payload (given identified account is found)
+        if db_user_result:
+            hashed_pwd = db_user_result['password']
+            result = get_kpvals(db_user_result, ('_id', 'username', 'email'), (str, str, str))
+            if pwd_match(checkable_pwd, hashed_pwd):
                 result['token'] = encode(result, Config.JWT_SECRET_KEY, algorithm = 'HS256')
+                result['status'] = 'succeed'
+            else:
+                result['status'] = 'fail'
         else:
-            result = {}
+            result = { 'status': 'fail' }
         return Response(result)
 
-class RegisterUserView(GenericAPIView):
+class RegisterUserAPI(GenericAPIView):
     """
     This view allows user registration.
 
@@ -56,11 +61,13 @@ class RegisterUserView(GenericAPIView):
     :password (string) - Password of the new user
     """
     def post(self, request):
-        data = request.data
-        coll_users.insert_one({
-            'username': data['username'],
-            'email': data['email'],
-            'password': pwd_hash(data['password']),
-            'unlocked': []
-        })
-        return Response({})
+        user_data = request.data
+        try:
+            coll_users.insert_one({
+                'username': user_data['username'],
+                'email': user_data['email'],
+                'password': pwd_hash(user_data['password'])
+            })
+            return Response({ 'status': 'success' })
+        except:
+            return Response({ 'status': 'fail' })

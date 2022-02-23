@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import CreatePlatformView, RetrievePlatform, RetrieveAllPlatforms
+from .views import CreatePlatformAPI, AuthUserForPlatformAPI, VerifyPlatformAuthAPI, RetrievePlatformAPI, RetrieveAllPlatformsAPI
 
 urlpatterns = [
-    path('platforms/create', CreatePlatformView.as_view()),
-    path('platforms/retrieve', RetrievePlatform.as_view()),
-    path('platforms/list', RetrieveAllPlatforms.as_view()),
+    path('platforms/create', CreatePlatformAPI.as_view()),
+    path('platforms/auth', AuthUserForPlatformAPI.as_view()),
+    path('platforms/verify', VerifyPlatformAuthAPI.as_view()),
+    path('platforms/retrieve', RetrievePlatformAPI.as_view()),
+    path('platforms/list', RetrieveAllPlatformsAPI.as_view()),
 ]
