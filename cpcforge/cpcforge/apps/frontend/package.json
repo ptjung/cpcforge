@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@uiw/react-textarea-code-editor": "^1.4.16",
     "axios": "^0.26.0",
     "css-loader": "^6.6.0",
     "formik": "^2.2.9",
