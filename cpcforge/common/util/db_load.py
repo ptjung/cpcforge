@@ -10,5 +10,4 @@ coll_submit_logs = db_history['submit_logs']
 # Profiles
 db_profiles = mongodb_client['profiles']
 coll_platforms = db_profiles['platforms']
-coll_problems = db_profiles['problems']
 coll_users = db_profiles['users']
