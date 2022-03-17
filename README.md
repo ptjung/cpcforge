@@ -26,6 +26,7 @@ MONGODB_CONN_STRING - MongoDB connection URI
 BASE_URL - Site's base URL
 JWT_SECRET_KEY - Secret
 DJANGO_SECRET_KEY - Secret
+PISTON_API_KEY - Piston API key (optional)
 ```
 
 #### 3 - Running
