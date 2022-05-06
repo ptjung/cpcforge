@@ -10,6 +10,11 @@ CPCForge is a web platform for end users to create and customize their own onlin
 ## Running Locally
 
 #### 1 - Installation
+From the base `cpcforge` directory, install required Python dependencies via:
+```
+pip install -r requirements.txt
+```
+
 For cloning and setting up the dependencies on the frontend and backend:
 ```
 $ git clone https://github.com/ptjung/cpcforge.git
