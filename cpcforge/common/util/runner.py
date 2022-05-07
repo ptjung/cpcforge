@@ -1,12 +1,12 @@
 from pyston import PystonClient, File
-from .config import Config
+from django.conf import settings
 import asyncio
 
 
 class Runner:
 
     def __init__(self):
-        self.__client = PystonClient(api_key = Config.PISTON_API_KEY)
+        self.__client = PystonClient(api_key = settings.PISTON_API_KEY)
         self.__result = None
         self.client_loop = asyncio.get_event_loop()
         # asyncio.set_event_loop(self.client_loop)

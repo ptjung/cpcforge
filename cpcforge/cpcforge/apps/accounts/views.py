@@ -1,7 +1,8 @@
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from jwt import encode, decode
-from common.util import Config, coll_users, pwd_hash, pwd_match, get_kpvals
+from django.conf import settings
+from common.util import coll_users, pwd_hash, pwd_match, get_kpvals
 
 class VerifyUserAPI(GenericAPIView):
     """
@@ -13,7 +14,7 @@ class VerifyUserAPI(GenericAPIView):
     def post(self, request):
         token = request.data['token']
         try:
-            payload = decode(token, Config.JWT_SECRET_KEY, algorithms = ['HS256'])
+            payload = decode(token, settings.JWT_SECRET_KEY, algorithms = ['HS256'])
             return Response({ 'verified': True, 'payload': payload })
         except:
             return Response({ 'verified': False, 'payload': None })
@@ -43,7 +44,7 @@ class RetrieveUserAPI(GenericAPIView):
             hashed_pwd = db_user_result['password']
             result = get_kpvals(db_user_result, ('_id', 'username', 'email'), (str, str, str))
             if pwd_match(checkable_pwd, hashed_pwd):
-                result['token'] = encode(result, Config.JWT_SECRET_KEY, algorithm = 'HS256')
+                result['token'] = encode(result, settings.JWT_SECRET_KEY, algorithm = 'HS256')
                 result['status'] = 'succeed'
             else:
                 result['status'] = 'fail'

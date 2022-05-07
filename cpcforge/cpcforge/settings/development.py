@@ -1,7 +1,18 @@
 from pathlib import Path
-from common.util import Config
+from dotenv import load_dotenv
+from os import getenv, path
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = Config.DJANGO_SECRET_KEY
+
+load_dotenv()
+SECRET_KEY = getenv('DJANGO_SECRET_KEY')
+JWT_SECRET_KEY = getenv('JWT_SECRET_KEY')
+MONGODB_CONN_STRING = getenv('MONGODB_CONN_STRING')
+PISTON_API_KEY = getenv('PISTON_API_KEY')
+AUTH0_DOMAIN = getenv("AUTH0_DOMAIN")
+AUTH0_CLIENT_ID = getenv("AUTH0_CLIENT_ID")
+AUTH0_CLIENT_SECRET = getenv("AUTH0_CLIENT_SECRET")
+
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
@@ -31,7 +42,15 @@ ROOT_URLCONF = 'cpcforge.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            path.join(
+                BASE_DIR,
+                "..",
+                "apps",
+                "frontend"
+                "templates"
+            )
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

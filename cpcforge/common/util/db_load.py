@@ -1,7 +1,7 @@
 from pymongo import MongoClient
-from .config import Config
+from django.conf import settings
 
-mongodb_client = MongoClient(Config.MONGODB_CONN_STRING)
+mongodb_client = MongoClient(settings.MONGODB_CONN_STRING)
 
 # History
 db_history = mongodb_client['history']

@@ -1,7 +1,8 @@
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from jwt import encode, decode
-from common.util import Config, coll_platforms, get_kpvals
+from django.conf import settings
+from common.util import coll_platforms, get_kpvals
 
 class CreatePlatformAPI(GenericAPIView):
     """
@@ -45,7 +46,7 @@ class AuthUserForPlatformAPI(GenericAPIView):
     """
     def post(self, request):
         handle = request.data['handle']
-        plt_auth_token = encode({ 'authed_for': handle }, Config.JWT_SECRET_KEY, algorithm = 'HS256')
+        plt_auth_token = encode({ 'authed_for': handle }, settings.JWT_SECRET_KEY, algorithm = 'HS256')
         return Response({ 'token': plt_auth_token })
 
 class VerifyPlatformAuthAPI(GenericAPIView):
@@ -60,7 +61,7 @@ class VerifyPlatformAuthAPI(GenericAPIView):
         req_data = request.data
         token, handle = req_data['token'], req_data['handle']
         try:
-            payload = decode(token, Config.JWT_SECRET_KEY, algorithms = ['HS256'])
+            payload = decode(token, settings.JWT_SECRET_KEY, algorithms = ['HS256'])
             return Response({ 'verified': payload['authed_for'] == handle })
         except:
             return Response({ 'verified': False })
