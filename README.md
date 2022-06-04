@@ -37,8 +37,8 @@ PISTON_API_KEY - Piston API key (optional)
 #### 3 - Running
 From the base `cpcforge` directory, run both of the following (development):
 ```
-$ python cpcforge/manage.py runserver
-$ npm run dev --prefix cpcforge\cpcforge\apps\frontend
+$ python manage.py runserver
+$ npm run dev --prefix cpcforge\apps\frontend
 ```
 
 ## Todo
