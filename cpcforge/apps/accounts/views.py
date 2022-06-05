@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from jwt import encode, decode
 from django.conf import settings
 from utils import db_entry_point, pwd_hash, pwd_match, get_kpvals
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class VerifyUserAPI(GenericAPIView):
     """
@@ -72,3 +75,15 @@ class RegisterUserAPI(GenericAPIView):
             return Response({ 'status': 'success' })
         except:
             return Response({ 'status': 'fail' })
+
+class X(GenericAPIView):
+
+    def get(self, request):
+        # Create user and save to the database
+        user = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
+
+        # Update fields and then save again
+        user.first_name = 'John'
+        user.last_name = 'Citizen'
+        user.save()
+        return Response({ 'status': 'success' })

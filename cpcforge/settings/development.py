@@ -8,6 +8,8 @@ load_dotenv()
 SECRET_KEY = getenv('DJANGO_SECRET_KEY')
 JWT_SECRET_KEY = getenv('JWT_SECRET_KEY')
 MONGODB_CONN_STRING = getenv('MONGODB_CONN_STRING')
+DB_USERNAME = getenv('DB_USERNAME')
+DB_PASSWORD = getenv('DB_PASSWORD')
 PISTON_API_KEY = getenv('PISTON_API_KEY')
 AUTH0_DOMAIN = getenv("AUTH0_DOMAIN")
 AUTH0_CLIENT_ID = getenv("AUTH0_CLIENT_ID")
@@ -24,9 +26,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     # 'mongoengine.django.mongo_auth',
-    'cpcforge.apps.accounts.apps.AccountsConfig',
-    'cpcforge.apps.frontend.apps.FrontendConfig',
-    'cpcforge.apps.platforms.apps.PlatformsConfig',
+    'cpcforge.apps.accounts',
+    'cpcforge.apps.frontend',
+    'cpcforge.apps.platforms',
 ]
 REST_FRAMEWORK = {}
 MIDDLEWARE = [
@@ -65,8 +67,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'cpcforge.wsgi.application'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'cpcforge',
+        'CLIENT': {
+            'host': MONGODB_CONN_STRING,
+            # 'username': DB_USERNAME,
+            # 'password': DB_PASSWORD,
+            # 'authMechanism': 'SCRAM-SHA-1'
+        }
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
@@ -83,6 +91,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+AUTH_USER_MODEL = 'accounts.User'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
