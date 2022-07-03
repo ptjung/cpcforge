@@ -1,4 +1,5 @@
 import axios from 'axios';
+import validator from './validator';
 
 const api = axios.create({ baseUrl: process.env.BASE_URL });
 
@@ -9,6 +10,7 @@ async function getTokenStatus() {
 			.catch(err => {})
     );
 }
+
 async function getPlatformTokenStatus(platformHandle) {
     const reqBody = { token: window.sessionStorage.getItem('platform_token'), handle: platformHandle };
     return (
@@ -21,8 +23,16 @@ async function getPlatformTokenStatus(platformHandle) {
 function navigateAndRefresh(urlPath) {
     window.location.href = urlPath;
 }
+
 function isPathFrom(urlPath) {
     return window.location.pathname.startsWith(urlPath);
 }
 
-export { api, getTokenStatus, getPlatformTokenStatus, navigateAndRefresh, isPathFrom };
+export {
+    api,
+    getTokenStatus,
+    getPlatformTokenStatus,
+    navigateAndRefresh,
+    isPathFrom,
+    validator,
+};

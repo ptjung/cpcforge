@@ -1,9 +1,24 @@
+.two-div-row {
+    display: flow-root;
+
+    div {
+        width: calc(50% - 4px);
+
+        &:first-of-type {
+            float: left;
+        }
+        &:last-of-type {
+            float: right;
+        }
+    }
+}
+
 .signup-box-wrapper {
     font-family: Roboto;
-    margin: 12.5vh 25% 0 25%;
+    margin-top: 10vh;
 
     .signup-box {
-        max-width: 33rem;
+        max-width: 500px;
         padding: 32px;
         border-radius: 8px;
         border: 1px solid #bbb;
@@ -40,7 +55,7 @@
                     margin-bottom: 4px;
                 }
 
-                span {
+                .error_span {
                     color: rgb(215, 0, 0);
                     font-size: 14px;
                 }

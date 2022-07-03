@@ -8,7 +8,7 @@ module.exports = (env, argv) => {
     return {
         entry: "./src/index.js",
         output: {
-            path: path.resolve(__dirname, "./static/frontend"),
+            path: path.resolve(__dirname, "static/frontend"),
             filename: "[name].js",
         },
         resolve: {
