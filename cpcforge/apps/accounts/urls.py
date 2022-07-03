@@ -1,9 +1,10 @@
-from django.urls import path
-from .views import VerifyUserAPI, RetrieveUserAPI, RegisterUserAPI, X
+from django.urls import include, path
+from . import views
 
 urlpatterns = [
-    path('users/verify', VerifyUserAPI.as_view()),
-    path('users/retrieve', RetrieveUserAPI.as_view()),
-    path('users/register', RegisterUserAPI.as_view()),
-    path('users/register_test', X.as_view()),
+    path('check_identifier', views.CheckUsername.as_view()),
+    path('users', views.RetrieveUser.as_view()),
+    path('users/', include([
+        path('create', views.CreateUser.as_view()),
+    ]))
 ]

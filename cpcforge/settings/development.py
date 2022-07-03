@@ -1,6 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, path
+from mongoengine import connect
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -15,6 +16,8 @@ AUTH0_DOMAIN = getenv("AUTH0_DOMAIN")
 AUTH0_CLIENT_ID = getenv("AUTH0_CLIENT_ID")
 AUTH0_CLIENT_SECRET = getenv("AUTH0_CLIENT_SECRET")
 
+connect(alias="default", host=MONGODB_CONN_STRING)
+
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
@@ -24,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
     # 'mongoengine.django.mongo_auth',
     'cpcforge.apps.accounts',

@@ -1,11 +1,65 @@
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from jwt import encode, decode
 from django.conf import settings
+from .serializers import UserSerializer
 from utils import db_entry_point, pwd_hash, pwd_match, get_kpvals
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
+class CheckUsername(APIView):
+
+    def post(self, request):
+        try:
+            idn = request.data['identifier']
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        queryset = User.objects.all()
+        if not (user := queryset.filter(Q(email=idn) | Q(username=idn)).first()):
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class RetrieveUser(APIView):
+    
+    def get(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        try:
+            idn = request.data['identifier']
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        queryset = User.objects.all()
+        if not (user := queryset.filter(Q(email=idn) | Q(username=idn)).first()):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CreateUser(APIView):
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        User.objects.create_user(**serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class UserViewSet(GenericViewSet):
+    serializer_class = UserSerializer
+
+    
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 class VerifyUserAPI(GenericAPIView):
     """
