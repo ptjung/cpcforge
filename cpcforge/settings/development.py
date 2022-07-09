@@ -2,6 +2,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, path
 from mongoengine import connect
+import pymongo
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,7 +17,10 @@ AUTH0_DOMAIN = getenv("AUTH0_DOMAIN")
 AUTH0_CLIENT_ID = getenv("AUTH0_CLIENT_ID")
 AUTH0_CLIENT_SECRET = getenv("AUTH0_CLIENT_SECRET")
 
-connect(alias="default", host=MONGODB_CONN_STRING)
+try:
+    connect(alias="default", host=MONGODB_CONN_STRING)
+except pymongo.errors.ConfigurationError:
+    ...
 
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -49,13 +53,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            path.join(
-                BASE_DIR,
-                "..",
-                "apps",
-                "frontend"
-                "templates"
-            )
+            path.join(BASE_DIR.parent, "templates"),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -70,16 +68,13 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'cpcforge.wsgi.application'
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'cpcforge',
-        'CLIENT': {
-            'host': MONGODB_CONN_STRING,
-            # 'username': DB_USERNAME,
-            # 'password': DB_PASSWORD,
-            # 'authMechanism': 'SCRAM-SHA-1'
-        }
-    }
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'cpcforge',
+    #     'CLIENT': {
+    #         'host': MONGODB_CONN_STRING
+    #     }
+    # }
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,3 +99,6 @@ USE_I18N = True
 USE_TZ = True
 STATIC_ROOT = 'cpcforge/apps/frontend'
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'apps/frontend/static/dist',
+]

@@ -1,8 +1,7 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This handles the frontend of the CPCForge app",
   "scripts": {
     "dev": "webpack watch --mode development",
     "build": "webpack --mode production"

@@ -3,12 +3,13 @@ const webpack = require("webpack");
 
 module.exports = (env, argv) => {
     const app_mode = argv.mode || 'development';
-    const dotenv = require('dotenv').config({ path: path.join(__dirname, '..', '..', '..', `.env`) }).parsed;
+    const root_path = path.join(__dirname, '..', '..', '..');
+    const dotenv = require('dotenv').config({ path: path.join(root_path, '.env') }).parsed;
 
     return {
-        entry: "./src/index.js",
+        entry: "./src/index.jsx",
         output: {
-            path: path.resolve(__dirname, "static/frontend"),
+            path: path.resolve(__dirname, "static/dist"),
             filename: "[name].js",
         },
         resolve: {
