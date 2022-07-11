@@ -1,0 +1,15 @@
+.field-container {
+    margin-bottom: 20px;
+    input {
+        display: block;
+        width: calc(100% - 32px);
+        font-size: 14px;
+        padding: 12px;
+        margin-bottom: 4px;
+    }
+
+    .error_span {
+        color: rgb(215, 0, 0);
+        font-size: 14px;
+    }
+}

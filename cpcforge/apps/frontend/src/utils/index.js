@@ -1,5 +1,8 @@
 import axios from 'axios';
 import validator from './validator';
+import declareHook from './hook';
+import getPagePath from './path';
+import usePageContext from './usePageContext';
 
 const api = axios.create({ baseUrl: process.env.BASE_URL });
 
@@ -35,4 +38,7 @@ export {
     navigateAndRefresh,
     isPathFrom,
     validator,
+    declareHook,
+    getPagePath,
+    usePageContext
 };
