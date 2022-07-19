@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
-import { InputField } from '../../common';
+import { InputField, Page } from '../../common';
 import { api } from '../../utils';
 import styles from './SignInPage.module.scss';
 
@@ -45,30 +45,32 @@ function SignInPage() {
     };
 
     return (
-        <div className={styles['login-box-wrapper']}>
-            <div className={styles['login-box']}>
-                <img src="static/images/logo_full.png" alt="Logo Full" />
-                <div className={styles['site-label']}>Log In</div>
-                <Formik
-                initialValues={loginInitValues}
-                validate={loginValidate}
-                validateOnChange={false}
-                validateOnBlur={false}
-                onSubmit={loginSubmitEvent}
-                >
-                    <Form className={styles['form-container']}>
-                    
-                        <InputField field="identifier" label="Username / Email" />
-                        <InputField field="password" label="Password" type="password" />
+        <Page>
+            <div className={styles['login-box-wrapper']}>
+                <div className={styles['login-box']}>
+                    <img src="static/images/logo_full.png" alt="Logo Full" />
+                    <div className={styles['site-label']}>Log In</div>
+                    <Formik
+                    initialValues={loginInitValues}
+                    validate={loginValidate}
+                    validateOnChange={false}
+                    validateOnBlur={false}
+                    onSubmit={loginSubmitEvent}
+                    >
+                        <Form className={styles['form-container']}>
+                        
+                            <InputField field="identifier" label="Username / Email" />
+                            <InputField field="password" label="Password" type="password" />
 
-                        <div className={styles['form-bottom']}>
-                            <button type="submit">Submit</button>
-                            <a href="/signup">Sign Up</a>
-                        </div>
-                    </Form>
-                </Formik>
+                            <div className={styles['form-bottom']}>
+                                <button type="submit">Submit</button>
+                                <a href="/signup">Sign Up</a>
+                            </div>
+                        </Form>
+                    </Formik>
+                </div>
             </div>
-        </div>
+        </Page>
     );
 }
 

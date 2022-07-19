@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useTable, usePagination } from 'react-table';
-import { Navbar } from '../../common';
+import { Page } from '../../common';
 import { api, navigateAndRefresh } from '../../utils';
 import styles from './PlatformListPage.module.scss';
 
@@ -236,8 +236,7 @@ function PlatformListPage() {
     }, []);
 
     return (
-        <>
-            <Navbar />
+        <Page>
             <Styles>
                 <h2>Platforms</h2>
                 <PlatformsTable
@@ -245,7 +244,7 @@ function PlatformListPage() {
                 platforms={platforms}
                 />
             </Styles>
-        </>
+        </Page>
     );
 }
 

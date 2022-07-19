@@ -1,11 +1,10 @@
 import React from 'react';
-import { Navbar } from '../../common';
+import { Page } from '../../common';
 import styles from './HomePage.module.scss';
 
 function HomePage() {
     return (
-        <>
-            <Navbar />
+        <Page>
             <div className={styles['home-module-wrapper']}>
                 <img src="static/images/logo_full.png" alt="Logo Full" />
                 <div>
@@ -17,7 +16,7 @@ function HomePage() {
                     </p>
                 </div>
             </div>
-        </>
+        </Page>
     );
 }
 

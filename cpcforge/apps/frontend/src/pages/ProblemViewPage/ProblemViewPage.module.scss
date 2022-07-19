@@ -8,7 +8,7 @@
         display: block;
         background: white;
         border: 1px solid #777;
-        border-radius: 8px;
+        border-radius: 4px;
         padding: 2em;
         margin-right: 2em;
         width: 45%;
@@ -23,6 +23,11 @@
         width: 50%;
         font-family: Roboto;
         margin-left: auto;
+
+        .editor-wrapper {
+            border: 1px solid gray;
+            border-radius: 4px;
+        }
     }
 
     .submit-test-container {
@@ -38,7 +43,7 @@
             &:last-of-type {
                 padding: 2em;
                 border: 1px solid black;
-                border-radius: 8px;
+                border-radius: 4px;
                 width: auto;
                 height: 20px;
             }

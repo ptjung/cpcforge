@@ -6,15 +6,24 @@ import { GiCheckMark } from 'react-icons/gi';
 import { BsXLg } from 'react-icons/bs';
 import 'brace/mode/python';
 import 'brace/theme/monokai';
-import { Navbar } from '../../common';
+import { Page } from '../../common';
 import { api } from '../../utils';
 import styles from './ProblemViewPage.module.scss';
 
 const aceEditorStyling = {
     'height': '650px',
     'width': 'unset',
-    'borderRadius': '8px',
-    'border': '1em solid black'
+    'fontSize': '14px',
+    'borderRadius': '4px',
+    'borderTop': '10px solid white'
+};
+
+const aceEditorOptions = {
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: false,
+    enableSnippets: false,
+    showLineNumbers: true,
+    tabSize: 2,
 };
 
 function ProblemViewPage() {
@@ -61,7 +70,6 @@ function ProblemViewPage() {
         }).then(res => res.data).catch(err => {
             return { 'status': 'fail' };
         });
-        console.log(submitDataOut)
         if ( submitDataOut['status'] === 'success' ) {
             const { pass: passCnt, no_pass: wrongCnt } = submitDataOut['result'];
             setPassCnt(passCnt);
@@ -71,8 +79,7 @@ function ProblemViewPage() {
     };
 
     return (
-        <>
-            <Navbar />
+        <Page>
             <div className={styles['problem-box-wrapper']}>
                 <div className={styles['problem-statement']}>
                     <h1>{probName}</h1>
@@ -80,13 +87,14 @@ function ProblemViewPage() {
                     {/* <MDEditor.Markdown source={probDescrptn} /> */}
                 </div>
                 <div className={styles['feedback-container']}>
-                    <div>
-                        {/* <AceEditor
+                    <div className={styles['editor-wrapper']}>
+                        <AceEditor
                         mode="python"
-                        theme="terminal"
+                        theme="xcode"
                         style={aceEditorStyling}
                         onChange={setWrittenCode}
-                        /> */}
+                        setOptions={aceEditorOptions}
+                        />
                     </div>
                     <div className={styles['submit-test-container']}>
                         <div>
@@ -99,7 +107,7 @@ function ProblemViewPage() {
                     </div>
                 </div>
             </div>
-        </>
+        </Page>
     );
 }
 

@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import ReactMde from "react-mde";
 import * as Showdown from "showdown";
 import "react-mde/lib/styles/css/react-mde-all.css";
-import { Navbar } from '../../common';
+import { Page } from '../../common';
 import { api } from '../../utils';
 import styles from './ProblemCreatePage.module.scss';
 
@@ -162,8 +162,7 @@ function ProblemCreatePage() {
     };
 
     return (
-        <>
-            <Navbar />
+        <Page>
             <div className={styles['probcreate-box-wrapper']}>
                 <Formik
                 initialValues={probcreateInitValues}
@@ -248,7 +247,7 @@ function ProblemCreatePage() {
                     </>
                 </Formik>
             </div>
-        </>
+        </Page>
     );
 }
 

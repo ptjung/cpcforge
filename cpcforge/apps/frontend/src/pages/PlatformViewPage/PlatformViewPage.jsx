@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useTable, usePagination } from 'react-table';
-import { Navbar } from '../../common';
+import { Page } from '../../common';
 import { api } from '../../utils';
 import styles from './PlatformViewPage.module.scss';
 
@@ -212,8 +212,7 @@ function PlatformViewPage() {
     }, []);
 
     return (
-        <>
-            <Navbar />
+        <Page>
             <Styles>
                     <h2>Problem Bank</h2>
                     <ProblemsTable
@@ -226,8 +225,7 @@ function PlatformViewPage() {
                         </button>
                     </div>
             </Styles>
-
-        </>
+        </Page>
     );
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Navbar } from '../../common';
+import { Page } from '../../common';
 import { api } from '../../utils';
 import styles from './PlatformCreatePage.module.scss';
 
@@ -86,8 +86,7 @@ function PlatformCreatePage() {
     };
 
     return (
-        <>
-            <Navbar />
+        <Page>
             <div className={styles['platcreate-box-wrapper']}>
                 <Formik
                 initialValues={platcreateInitValues}
@@ -173,7 +172,7 @@ function PlatformCreatePage() {
                     </>
                 </Formik>
             </div>
-        </>
+        </Page>
     );
 }
 

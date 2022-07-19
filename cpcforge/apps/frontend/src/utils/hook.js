@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { Suspender } from "../common";
 import ReactDOM from "react-dom";
 
 function declareHook(id, importExpr) {
@@ -12,7 +13,7 @@ function declareHook(id, importExpr) {
         const mountableNode = document.getElementById(id);
         if (mountableNode) {
             ReactDOM.render(
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<Suspender />}>
                     <Content />
                 </Suspense>,
                 mountableNode
