@@ -1,10 +1,10 @@
 import React from 'react';
 import Navbar from '../Navbar/Navbar';
 
-function Page({ children }) {
+function Page({ showNav = true, children }) {
     return (
         <>
-            <Navbar />
+            {showNav ? <Navbar /> : null}
             {children}
         </>
         

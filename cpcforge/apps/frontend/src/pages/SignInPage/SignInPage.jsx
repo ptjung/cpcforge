@@ -45,7 +45,7 @@ function SignInPage() {
     };
 
     return (
-        <Page>
+        <Page showNav={false}>
             <div className={styles['login-box-wrapper']}>
                 <div className={styles['login-box']}>
                     <img src="static/images/logo_full.png" alt="Logo Full" />

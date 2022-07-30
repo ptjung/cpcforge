@@ -87,7 +87,7 @@ function SignUpPage() {
     };
 
     return (
-        <Page>
+        <Page showNav={false}>
             <div className={styles['signup-box-wrapper']}>
                 <div className={styles['signup-box']}>
                     <img src="static/images/logo_full.png" alt="Logo Full" />
