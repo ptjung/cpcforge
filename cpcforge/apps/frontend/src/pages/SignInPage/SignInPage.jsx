@@ -5,7 +5,8 @@ import { api } from '../../utils';
 import styles from './SignInPage.module.scss';
 
 function SignInPage() {
-    const [token, setToken] = useState('');
+    const [usernameToAuth, setUsernameToAuth] = useState('');
+    const [passwordToAuth, setPasswordToAuth] = useState('');
 
     const loginInitValues = {
         identifier: '',
@@ -20,28 +21,22 @@ function SignInPage() {
         const inPassword = values.password.trim();
     
         /* Check whether account exists by the identifier */
-        const retrieveBody = { identifier: {'$regex': `^${inIdentifier}$`, $options: 'i' }, password: inPassword };
-        const res = await api.post('/api/users/retrieve', retrieveBody);
-        if (!inIdentifier || (Object.keys(res.data).length <= 1)) {
-            errors.identifier = 'Enter an existing username or email';
-        }
-        else if (!inPassword || !(res.data.hasOwnProperty('token'))) {
-            errors.password = 'The provided password is incorrect';
-        }
-        else {
-            setToken(res.data['token']);
-        }
+        const retrieveBody = { identifier: inIdentifier, password: inPassword };
+        await api.post('/api/users', retrieveBody)
+            .then(res => {
+                setUsernameToAuth(res.data['username']);
+                setPasswordToAuth(inPassword);
+            }).catch(() => {
+                errors.identifier = 'Enter an existing username or email';
+            });
     
         // For form errors
         return errors;
     };
     
     const loginSubmitEvent = async (values, actions) => {
-        window.sessionStorage.setItem('token', token);
-
-        // Navigate
-        actions.resetForm(loginInitValues);
-        // proceed to be authed and return to page from before
+        const authBody = { username: usernameToAuth, password: passwordToAuth };
+        await api.post('/api/users/authin', authBody);
     };
 
     return (

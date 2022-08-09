@@ -1,6 +1,6 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import View
 
 #@login_required(login_url='/login')
@@ -31,7 +31,7 @@ class SignIn(View):
             { 'content_id': 'sign-in' }
         )
 
-class PlatformList(View):
+class PlatformList(LoginRequiredMixin, View):
     def get(self, request):
         return render(
             request,
@@ -86,7 +86,6 @@ class ProblemView(View):
                 }
             }
         )
-
 
 # legacy
 

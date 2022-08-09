@@ -1,5 +1,5 @@
-from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, get_user_model, login
 from django.db.models import Q
 from rest_framework import status
 from rest_framework.views import APIView
@@ -51,10 +51,19 @@ class CreateUser(APIView):
         User.objects.create_user(**serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+class AuthenticateUser(APIView):
+
+    def post(self, request):
+        username = request.data['username']
+        password = request.data['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class UserViewSet(GenericViewSet):
     serializer_class = UserSerializer
-
-    
 
     def list(self, request):
         queryset = self.get_queryset()

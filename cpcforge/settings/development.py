@@ -1,4 +1,5 @@
 from pathlib import Path
+from telnetlib import AUTHENTICATION
 from dotenv import load_dotenv
 from os import getenv, path
 from mongoengine import connect
@@ -33,7 +34,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
-    # 'mongoengine.django.mongo_auth',
     'cpcforge.apps.accounts',
     'cpcforge.apps.frontend',
     'cpcforge.apps.platforms',
@@ -68,13 +68,13 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'cpcforge.wsgi.application'
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': 'cpcforge',
-    #     'CLIENT': {
-    #         'host': MONGODB_CONN_STRING
-    #     }
-    # }
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'cpcforge',
+        'CLIENT': {
+            'host': MONGODB_CONN_STRING
+        }
+    }
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -90,9 +90,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+AUTHENTICATION_BACKENDS = [
+    'cpcforge.apps.accounts.backends.AuthBackend',
+]
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+LOGIN_URL = '/login'
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
