@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import { InputField, Page } from '../../common';
 import { api } from '../../utils';
@@ -7,6 +8,7 @@ import styles from './SignInPage.module.scss';
 function SignInPage() {
     const [usernameToAuth, setUsernameToAuth] = useState('');
     const [passwordToAuth, setPasswordToAuth] = useState('');
+    const navigate = useNavigate();
 
     const loginInitValues = {
         identifier: '',
@@ -36,7 +38,14 @@ function SignInPage() {
     
     const loginSubmitEvent = async (values, actions) => {
         const authBody = { username: usernameToAuth, password: passwordToAuth };
-        await api.post('/api/users/authin', authBody);
+        console.log(authBody);
+        await api.post('/api/users/authin', authBody)
+            .then(() => {
+                navigate("/redirect?next=/xyz");
+            })
+            .catch(() => {
+                errors.password = 'The provided password is incorrect';
+            });
     };
 
     return (

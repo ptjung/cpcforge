@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, get_user_model, login
 from django.db.models import Q
 from rest_framework import status
@@ -59,7 +59,7 @@ class AuthenticateUser(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')
+            return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewSet(GenericViewSet):
