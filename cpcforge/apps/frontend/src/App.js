@@ -1,64 +1,41 @@
 import React from "react";
-// import {
-// 	BrowserRouter as Router,
-// 	Routes,
-// 	Route
-// } from "react-router-dom";
-// import {
-// 	Navbar,
-// 	HomeModule,
-// 	PlatformBox,
-// 	PlatformList,
-// 	PlatformCreate,
-// 	ProblemCreate,
-// 	ProblemBox,
-// 	LogInModule,
-// 	SignUpModule
-// } from "./pages";
-// import "./App.css";
-
-// function App() {
-
-// 	return (
-// 		<Router>
-// 			<Routes>
-// 				<Route exact path="/" element={
-// 					<>
-// 						<Navbar />
-// 						<HomeModule />
-// 					</>
-// 				} />
-// 				<Route path="/list" element={
-// 					<>
-// 						<Navbar />
-// 						<PlatformList />
-// 					</>
-// 				} />
-// 				<Route path="/create" element={
-// 					<>
-// 						<Navbar />
-// 						<PlatformCreate />
-// 					</>
-// 				} />
-// 				<Route path="/platform/:handle/*" element={
-// 					<>
-// 						<Navbar />
-// 						<Routes>
-// 							<Route exact path="/" element={<PlatformBox />} />
-// 							<Route path="/create" element={<ProblemCreate />} />
-// 							<Route path="/problem/:probHandle/*" element={<ProblemBox />} />
-// 						</Routes>	
-// 					</>
-// 				} />
-// 				<Route path="/login" element={<LogInModule />} />
-// 				<Route path="/signup" element={<SignUpModule />} />
-// 			</Routes>
-// 		</Router>
-// 	);
-// };
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route
+} from "react-router-dom";
+import {
+	HomePage,
+	PlatformCreatePage,
+	PlatformListPage,
+	PlatformViewPage,
+	ProblemCreatePage,
+	ProblemViewPage,
+	SignInPage,
+	SignUpPage
+} from "./pages";
+import "./App.css";
 
 function App() {
-	return (<div>oiiii</div>);
-}
+
+	return (
+		<Router>
+			<Routes>
+				<Route exact path="/" element={<HomePage />} />
+				<Route path="/list" element={<PlatformListPage />} />
+				<Route path="/create" element={<PlatformCreatePage />} />
+				<Route path="/platform/:handle/*" element={
+					<Routes>
+						<Route exact path="/" element={<PlatformViewPage />} />
+						<Route path="/create" element={<ProblemCreatePage />} />
+						<Route path="/problem/:probHandle/*" element={<ProblemViewPage />} />
+					</Routes>	
+				} />
+				<Route path="/login" element={<SignInPage />} />
+				<Route path="/signup" element={<SignUpPage />} />
+			</Routes>
+		</Router>
+	);
+};
 
 export default App;

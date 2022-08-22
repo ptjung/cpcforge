@@ -1,52 +1,21 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Formik, Form } from 'formik';
+import { Navigate, NavLink, useNavigate, useSearchParams } from 'react-router-dom';
+import { Formik, Form, FormikProvider } from 'formik';
 import { InputField, Page } from '../../common';
-import { api } from '../../utils';
+import { api, usePageContext } from '../../utils';
 import styles from './SignInPage.module.scss';
 
-function SignInPage() {
-    const [usernameToAuth, setUsernameToAuth] = useState('');
-    const [passwordToAuth, setPasswordToAuth] = useState('');
-    const navigate = useNavigate();
+const LOGIN_INIT_VALUES = {
+    identifier: '',
+    password: '',
+};
 
-    const loginInitValues = {
-        identifier: '',
-        password: ''
-    };
-    
-    const loginValidate = async (values) => {
-        const errors = {};
-    
-        /* This block checks for wrong credentials */
-        const inIdentifier = values.identifier.trim();
-        const inPassword = values.password.trim();
-    
-        /* Check whether account exists by the identifier */
-        const retrieveBody = { identifier: inIdentifier, password: inPassword };
-        await api.post('/api/users', retrieveBody)
-            .then(res => {
-                setUsernameToAuth(res.data['username']);
-                setPasswordToAuth(inPassword);
-            }).catch(() => {
-                errors.identifier = 'Enter an existing username or email';
-            });
-    
-        // For form errors
-        return errors;
-    };
-    
-    const loginSubmitEvent = async (values, actions) => {
-        const authBody = { username: usernameToAuth, password: passwordToAuth };
-        console.log(authBody);
-        await api.post('/api/users/authin', authBody)
-            .then(() => {
-                navigate("/redirect?next=/xyz");
-            })
-            .catch(() => {
-                errors.password = 'The provided password is incorrect';
-            });
-    };
+function SignInPage() {
+
+    const pageContext = usePageContext();
+    const loginSubmit = () => {};
+
+    console.log(pageContext);
 
     return (
         <Page showNav={false}>
@@ -55,22 +24,17 @@ function SignInPage() {
                     <img src="static/images/logo_full.png" alt="Logo Full" />
                     <div className={styles['site-label']}>Log In</div>
                     <Formik
-                    initialValues={loginInitValues}
-                    validate={loginValidate}
-                    validateOnChange={false}
-                    validateOnBlur={false}
-                    onSubmit={loginSubmitEvent}
+                    initialValues={LOGIN_INIT_VALUES}
+                    onSubmit={loginSubmit}
                     >
-                        <Form className={styles['form-container']}>
-                        
+                        <div className={styles['form-container']}>
                             <InputField field="identifier" label="Username / Email" />
                             <InputField field="password" label="Password" type="password" />
-
                             <div className={styles['form-bottom']}>
                                 <button type="submit">Submit</button>
                                 <a href="/signup">Sign Up</a>
                             </div>
-                        </Form>
+                        </div>
                     </Formik>
                 </div>
             </div>

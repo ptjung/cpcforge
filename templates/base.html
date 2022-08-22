@@ -15,7 +15,7 @@
 	</head>
 	<body>
 		{% block content %}
-		<div id="{{ content_id }}"></div>
+		<div id="root"></div>
 		{{ page_context | json_script:'page-context' }}
 		{% endblock %}
 

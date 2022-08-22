@@ -8,7 +8,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from jwt import encode, decode
 from django.conf import settings
-from .serializers import UserSerializer
+from cpcforge.apps.accounts.serializers import UserSerializer
 from utils import db_entry_point, pwd_hash, pwd_match, get_kpvals
 
 User = get_user_model()
@@ -50,17 +50,6 @@ class CreateUser(APIView):
         serializer.is_valid(raise_exception=True)
         User.objects.create_user(**serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-class AuthenticateUser(APIView):
-
-    def post(self, request):
-        username = request.data['username']
-        password = request.data['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewSet(GenericViewSet):
     serializer_class = UserSerializer

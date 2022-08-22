@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form id="page-form" method="post" novalidate>
+    {% csrf_token %}
+    <div id="root"></div>
+    {{ page_context | json_script:'page-context' }}
+</form>
+{% endblock %}

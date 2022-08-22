@@ -38,7 +38,16 @@ INSTALLED_APPS = [
     'cpcforge.apps.frontend',
     'cpcforge.apps.platforms',
 ]
-REST_FRAMEWORK = {}
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+     ),
+     'DEFAULT_PERMISSIONS_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
+     ),
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -94,7 +103,7 @@ AUTHENTICATION_BACKENDS = [
     'cpcforge.apps.accounts.backends.AuthBackend',
 ]
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/list'
 LOGIN_URL = '/login'
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
