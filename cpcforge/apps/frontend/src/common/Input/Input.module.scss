@@ -1,5 +1,6 @@
 .field-container {
     margin-bottom: 20px;
+
     input {
         display: block;
         width: calc(100% - 32px);
@@ -8,8 +9,12 @@
         margin-bottom: 4px;
     }
 
-    .error_span {
+    .error-span {
         color: rgb(215, 0, 0);
         font-size: 14px;
     }
+}
+
+.error-label {
+    border: 1px #d00 solid;
 }

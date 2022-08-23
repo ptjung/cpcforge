@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { InputField, Page } from '../../common';
+import { Input, Page } from '../../common';
 import { api, validator } from '../../utils';
 import styles from './SignUpPage.module.scss';
 
@@ -108,17 +108,17 @@ function SignUpPage() {
                         <Form className={styles['form-container']}>
                             <div className={styles['two-div-row']}>
                                 <div>
-                                    <InputField field="first_name" label="First Name *" />
+                                    <Input field="first_name" label="First Name *" />
                                 </div>
                                 <div>
-                                    <InputField field="last_name" label="Last Name *" />
+                                    <Input field="last_name" label="Last Name *" />
                                 </div>
                             </div>
 
-                            <InputField field="username" label="Username *" />
-                            <InputField field="email" label="Email *" type="email" />
-                            <InputField field="password" label="Password *" type="password" />
-                            <InputField field="confirm_password" label="Confirm Password *" type="password" />
+                            <Input field="username" label="Username *" />
+                            <Input field="email" label="Email *" type="email" />
+                            <Input field="password" label="Password *" type="password" />
+                            <Input field="confirm_password" label="Confirm Password *" type="password" />
 
                             <div className={styles['form-bottom']}>
                                 <button type="submit">Submit</button>
