@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
+from django.db.models import Q
 from cpcforge.apps.frontend import validators
 
 User = get_user_model()
@@ -28,15 +29,17 @@ class UserSignUp(forms.ModelForm):
 
 class UserSignIn(forms.Form):
     identifier = forms.CharField(
-        error_messages={"required": "Enter a username or email"}
+        error_messages={"required": "Enter a valid username or email"}
     )
-    password = forms.CharField(
-        error_messages={"required": "Enter a valid password"}
-    )
+    password = forms.CharField(required=False)
 
     def clean(self):
         cleaned_data = super().clean()
-        identifier = cleaned_data.get("identifier")
-        password = cleaned_data.get("password")
+        idn = cleaned_data.get("identifier")
+        pwd = cleaned_data.get("password")
 
-        self.add_error("password", "you are now breathing manually")
+        if not (user := User.objects.filter(Q(email=idn) | Q(username=idn)).first()):
+            self.add_error("identifier", "Enter a valid username or email")
+            return
+        if not authenticate(username=user.username, password=pwd):
+            self.add_error("password", "Password is incorrect")

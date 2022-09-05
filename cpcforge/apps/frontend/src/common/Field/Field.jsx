@@ -1,22 +1,22 @@
 import React from 'react';
 import { usePageContext } from '../../utils';
-import styles from './Input.module.scss';
+import styles from './Field.module.scss';
 
-function Input({
-    field,
+function Field({
+    name,
     type,
     label,
 }) {
     const pageContext = usePageContext();
-    const fieldErrors = pageContext?.errors?.[field] ?? [];
+    const fieldErrors = pageContext?.errors?.[name] ?? [];
     const displayError = fieldErrors.length > 0;
 
     return (
-        <label htmlFor={field} className={styles['field-container']}>
+        <label htmlFor={name} className={styles['field-container']}>
             <span>{label}</span>
             <input
-            id={field}
-            name={field}
+            id={name}
+            name={name}
             type={type}
             className={displayError ? styles['error-label'] : ''}
             />
@@ -27,4 +27,4 @@ function Input({
     );
 }
 
-export default Input;
+export default Field;

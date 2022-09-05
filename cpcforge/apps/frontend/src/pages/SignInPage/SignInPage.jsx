@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Page } from '../../common';
+import { Field, Page } from '../../common';
 import styles from './SignInPage.module.scss';
 
 function SignInPage() {
@@ -10,15 +10,8 @@ function SignInPage() {
                     <img src="static/images/logo_full.png" alt="Logo Full" />
                     <div className={styles['site-label']}>Log In</div>
                     <div className={styles['form-container']}>
-                        <Input
-                        field="identifier"
-                        label="Username / Email"
-                        />
-                        <Input
-                        field="password"
-                        label="Password"
-                        type="password"
-                        />
+                        <Field name="identifier" label="Username / Email" />
+                        <Field name="password" label="Password" type="password" />
                         <div className={styles['form-bottom']}>
                             <button type="submit">Submit</button>
                             <a href="/signup">Sign Up</a>
