@@ -13,13 +13,11 @@ function SignInPage() {
                         <Input
                         field="identifier"
                         label="Username / Email"
-                        error="Enter an existing username or email"
                         />
                         <Input
                         field="password"
                         label="Password"
                         type="password"
-                        error="The provided password is incorrect"
                         />
                         <div className={styles['form-bottom']}>
                             <button type="submit">Submit</button>

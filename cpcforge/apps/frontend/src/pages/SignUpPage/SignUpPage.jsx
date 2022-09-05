@@ -92,40 +92,26 @@ function SignUpPage() {
                 <div className={styles['signup-box']}>
                     <img src="static/images/logo_full.png" alt="Logo Full" />
                     <div className={styles['site-label']}>Sign Up</div>
-                    <Formik
-                    initialValues={{
-                        first_name: '',
-                        last_name: '',
-                        username: '',
-                        email: '',
-                        password: '',
-                        confirm_password: '',
-                    }}
-                    validate={signupValidate}
-                    validateOnChange={false}
-                    onSubmit={signupSubmitEvent}
-                    >
-                        <Form className={styles['form-container']}>
-                            <div className={styles['two-div-row']}>
-                                <div>
-                                    <Input field="first_name" label="First Name *" />
-                                </div>
-                                <div>
-                                    <Input field="last_name" label="Last Name *" />
-                                </div>
+                    <div className={styles['form-container']}>
+                        <div className={styles['two-div-row']}>
+                            <div>
+                                <Input field="first_name" label="First Name *" />
                             </div>
-
-                            <Input field="username" label="Username *" />
-                            <Input field="email" label="Email *" type="email" />
-                            <Input field="password" label="Password *" type="password" />
-                            <Input field="confirm_password" label="Confirm Password *" type="password" />
-
-                            <div className={styles['form-bottom']}>
-                                <button type="submit">Submit</button>
-                                <a href="/login">Log In</a>
+                            <div>
+                                <Input field="last_name" label="Last Name *" />
                             </div>
-                        </Form>
-                    </Formik>
+                        </div>
+
+                        <Input field="username" label="Username *" />
+                        <Input field="email" label="Email *" type="email" />
+                        <Input field="password" label="Password *" type="password" />
+                        <Input field="confirm_password" label="Confirm Password *" type="password" />
+
+                        <div className={styles['form-bottom']}>
+                            <button type="submit">Submit</button>
+                            <a href="/login">Log In</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Page>
