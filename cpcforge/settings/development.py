@@ -115,3 +115,4 @@ STATICFILES_DIRS = [
     BASE_DIR / 'apps/frontend/static/dist',
 ]
 JSON_ERRORS_MESSAGE_TAG = 'json_errors'
+JSON_FIELDS_MESSAGE_TAG = 'json_fields'

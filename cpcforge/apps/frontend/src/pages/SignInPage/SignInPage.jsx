@@ -10,8 +10,15 @@ function SignInPage() {
                     <img src="static/images/logo_full.png" alt="Logo Full" />
                     <div className={styles['site-label']}>Log In</div>
                     <div className={styles['form-container']}>
-                        <Field name="identifier" label="Username / Email" />
-                        <Field name="password" label="Password" type="password" />
+                        <Field
+                        name="identifier"
+                        label="Username / Email"
+                        />
+                        <Field
+                        name="password"
+                        label="Password"
+                        type="password" populateOnError={false}
+                        />
                         <div className={styles['form-bottom']}>
                             <button type="submit">Submit</button>
                             <a href="/signup">Sign Up</a>

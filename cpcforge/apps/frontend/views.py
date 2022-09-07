@@ -1,11 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login
-from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
 from cpcforge.apps.accounts import views as views_acc
 from cpcforge.apps.frontend import forms
-from utils import compile_json_msg_errors, extract_json_msg_errors
+import utils as util_fns
 
 class Home(View):
     def get(self, request):
@@ -17,19 +16,19 @@ class Home(View):
 
 class SignUp(View):
     def get(self, request):
-        form_errors = extract_json_msg_errors(request)
+        fields_context = util_fns.extract_json_msg_fields(request)
         return render(
             request,
             'form.html',
             {
-                'content_id': 'sign-up',
-                'page_context': { 'errors': form_errors },
+                'content_id': 'sign-in',
+                'page_context': fields_context,
             }
         )
 
     def post(self, request):
         sign_up_form = forms.UserSignUp(request.POST)
-        compile_json_msg_errors(request, sign_up_form)
+        util_fns.compile_json_msg_fields(request, sign_up_form)
         if sign_up_form.is_valid():
             res_user = views_acc.CreateUser.as_view()(request)
             if res_user.status_code == 201:
@@ -38,19 +37,19 @@ class SignUp(View):
 
 class SignIn(View):
     def get(self, request):
-        form_errors = extract_json_msg_errors(request)
+        fields_context = util_fns.extract_json_msg_fields(request)
         return render(
             request,
             'form.html',
             {
                 'content_id': 'sign-in',
-                'page_context': { 'errors': form_errors },
+                'page_context': fields_context,
             }
         )
 
     def post(self, request):
         sign_in_form = forms.UserSignIn(request.POST)
-        compile_json_msg_errors(request, sign_in_form)
+        util_fns.compile_json_msg_fields(request, sign_in_form)
         if sign_in_form.is_valid():
             res_user = views_acc.RetrieveUser.as_view()(request)
             username = res_user.data['username']
