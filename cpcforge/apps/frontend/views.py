@@ -17,21 +17,28 @@ class Home(View):
 
 class SignUp(View):
     def get(self, request):
+        form_errors = extract_json_msg_errors(request)
         return render(
             request,
-            'base.html',
-            { 'content_id': 'sign-up' }
+            'form.html',
+            {
+                'content_id': 'sign-up',
+                'page_context': { 'errors': form_errors },
+            }
         )
 
     def post(self, request):
-        res = views_acc.CreateUser.as_view()(request)
-        print(res)
-        return redirect("sign-in")
+        sign_up_form = forms.UserSignUp(request.POST)
+        compile_json_msg_errors(request, sign_up_form)
+        if sign_up_form.is_valid():
+            res_user = views_acc.CreateUser.as_view()(request)
+            if res_user.status_code == 201:
+                return redirect("sign-in")
+        return redirect("sign-up")
 
 class SignIn(View):
     def get(self, request):
         form_errors = extract_json_msg_errors(request)
-        print(form_errors)
         return render(
             request,
             'form.html',
@@ -53,23 +60,6 @@ class SignIn(View):
                 login(request, user)
                 return redirect("platform-list")
         return redirect("sign-in")
-        # print('---')
-        # print(sign_in_form.is_valid())
-        # print(request.POST)
-        # print(sign_in_form.errors.as_json())
-        # print('===')
-        # res_user = views_acc.RetrieveUser.as_view()(request)
-        # if res_user.data == None:
-        #     messages.error(request, "identifier")
-        #     return redirect("sign-in")
-        # username = res_user.data['username']
-        # password = request.POST['password']
-        # user = authenticate(username=username, password=password)
-        # if user is not None:
-        #     login(request, user)
-        #     return redirect("platform-list")
-        # messages.error(request, "password")
-        # return redirect("sign-in")
 
 class PlatformList(LoginRequiredMixin, View):
     redirect_field_name = None

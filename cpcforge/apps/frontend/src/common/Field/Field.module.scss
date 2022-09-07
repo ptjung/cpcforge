@@ -1,12 +1,28 @@
 .field-container {
     margin-bottom: 20px;
 
-    input {
+    .required {
+        user-select: none;
+        color: #d00;
+    }
+
+    .input-wrapper {
+        position: relative;
         display: block;
-        width: calc(100% - 32px);
-        font-size: 14px;
-        padding: 12px;
-        margin-bottom: 4px;
+
+        .addon-wrapper {
+            position: absolute;
+            top: 0;
+            right: 5px;
+        }
+    
+        input {
+            display: block;
+            width: calc(100% - 32px);
+            font-size: 14px;
+            padding: 12px;
+            margin-bottom: 4px;
+        }
     }
 
     .error-span {

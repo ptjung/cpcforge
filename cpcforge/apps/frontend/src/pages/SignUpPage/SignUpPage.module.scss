@@ -15,7 +15,7 @@
 
 .signup-box-wrapper {
     font-family: Roboto;
-    margin-top: 10vh;
+    margin-top: 12.5vh;
 
     .signup-box {
         max-width: 500px;
@@ -48,6 +48,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                user-select: none;
 
                 button {
                     margin-top: 8px;

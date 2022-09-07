@@ -1,5 +1,4 @@
 import axios from 'axios';
-import validator from './validator';
 import declareHook from './hook';
 import getPagePath from './path';
 import usePageContext from './usePageContext';
@@ -37,7 +36,6 @@ export {
     getPlatformTokenStatus,
     navigateAndRefresh,
     isPathFrom,
-    validator,
     declareHook,
     getPagePath,
     usePageContext

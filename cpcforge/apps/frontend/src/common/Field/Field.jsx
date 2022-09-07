@@ -6,6 +6,8 @@ function Field({
     name,
     type,
     label,
+    addon = null,
+    required = false,
 }) {
     const pageContext = usePageContext();
     const fieldErrors = pageContext?.errors?.[name] ?? [];
@@ -13,13 +15,23 @@ function Field({
 
     return (
         <label htmlFor={name} className={styles['field-container']}>
-            <span>{label}</span>
-            <input
-            id={name}
-            name={name}
-            type={type}
-            className={displayError ? styles['error-label'] : ''}
-            />
+            <span>
+                {label}
+                {required ? (<span className={styles['required']}> *</span>) : ""}
+            </span>
+            <span className={styles['input-wrapper']}>
+                <input
+                id={name}
+                name={name}
+                type={type}
+                className={displayError ? styles['error-label'] : ''}
+                />
+                {addon ? (
+                <span className={styles['addon-wrapper']}>
+                    {addon}
+                </span>
+                ) : null}
+            </span>
             <span className={styles['error-span']}>
                 {displayError ? fieldErrors[0].message : ''}
             </span>

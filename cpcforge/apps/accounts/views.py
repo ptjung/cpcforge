@@ -34,7 +34,7 @@ class RetrieveUser(APIView):
 
     def post(self, request):
         try:
-            idn = request.data['identifier']
+            idn = request.data['identifier'].strip()
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         queryset = User.objects.all()
