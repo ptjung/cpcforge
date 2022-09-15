@@ -74,7 +74,7 @@ class UserSignIn(forms.Form):
         idn = cleaned_data.get("identifier")
         pwd = cleaned_data.get("password")
 
-        if not (user := User.objects.filter(Q(email=idn) | Q(username=idn)).first()):
+        if not (user := User.objects.filter(Q(email__iexact=idn) | Q(username__iexact=idn)).first()):
             self.add_error("identifier", "Enter a valid username or email")
             return
         if not authenticate(username=user.username, password=pwd):

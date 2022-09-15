@@ -21,7 +21,7 @@ class CheckUsername(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         queryset = User.objects.all()
-        if not (user := queryset.filter(Q(email=idn) | Q(username=idn)).first()):
+        if not queryset.filter(Q(email__iexact=idn) | Q(username__iexact=idn)).first():
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -38,7 +38,7 @@ class RetrieveUser(APIView):
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         queryset = User.objects.all()
-        if not (user := queryset.filter(Q(email=idn) | Q(username=idn)).first()):
+        if not (user := queryset.filter(Q(email__iexact=idn) | Q(username__iexact=idn)).first()):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
