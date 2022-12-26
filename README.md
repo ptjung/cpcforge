@@ -41,16 +41,6 @@ $ python manage.py runserver
 $ npm run dev --prefix cpcforge\apps\frontend
 ```
 
-## Todo
-- Proper submission handling
-- User roles with different permissions
-- More platform settings and customization
-- Leaderboards feature
-- Implementing a more intuitive UI
-- Implementing better security practices
-- Support for user, platform, problem deletion
-- Support for solving problems in more programming languages
-
 ## Built With
 
 * [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - For storing users, platforms, and submission logs
